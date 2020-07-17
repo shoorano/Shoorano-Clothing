@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import { toggleCartHidden } from '../../redux/cart/cart.actions.js';
 import { selectCartItemsCount } from '../../redux/cart/cart.selectors.js';
@@ -20,10 +21,9 @@ const mapDispatchToProps = dispatch => ({
 });
 
 // Memoized to avoid rerendering CartDropDown component every time reducer runs.
-const mapStateToProps = (state) => ({
-    itemCount: selectCartItemsCount(state)
+const mapStateToProps = createStructuredSelector({
+    itemCount: selectCartItemsCount
 })
-
 
 export default connect(
     mapStateToProps, 
