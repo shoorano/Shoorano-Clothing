@@ -1,6 +1,6 @@
 .menu-item {
+  height: 38vh;
   min-width: 30%;
-  height: 240px;
   flex: 1 1 auto;
   display: flex;
   align-items: center;
@@ -23,7 +23,7 @@
   }
 
   &.large {
-    height: 380px;
+    height: 45vh;
   }
 
   &:first-child {
@@ -32,6 +32,14 @@
 
   &:last-child {
     margin-left: 7.5px;
+  }
+
+  @media screen and (max-width: 800px) {
+    height: 200px;
+
+    &.large {
+      height: 200px;
+    }
   }
 
   .background-image {
