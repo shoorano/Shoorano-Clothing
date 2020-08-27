@@ -54,20 +54,24 @@ const config = {
     return await batch.commit();
   }
 
-  export const convertCollectionsSnapshotToMap = (collections) => {
-    const transformedCollection = collections.docs.map(doc => {
-      const { title, items } = doc.data();
+  export const convertCollectionsSnapshotToMap = collectionsSnapshot => {
+    const transformedCollection = collectionsSnapshot.docs.map(docSnapshot => {
+      const { title, items } = docSnapshot.data();
 
       return {
         // encode URI converts strings to readable string for url.
         routeName: encodeURI(title.toLowerCase()),
-        id: doc.id,
+        id: docSnapshot.id,
         title,
         items
       };
-    })
+    });
 
-    console.log(transformedCollection);
+    // Return each element of the collections array as an object property, With the value being its title.
+    return transformedCollection.reduce((accumulator, collection) => {
+      accumulator[collection.title.toLowerCase()] = collection;
+      return accumulator;
+    }, {})
   }
 
   firebase.initializeApp(config);

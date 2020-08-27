@@ -10,13 +10,13 @@ export const selectCollections = createSelector(
 
 export const CollectionsForPreview = createSelector(
     [selectCollections],
-    collections => Object.keys(collections).map(key => collections[key])
+    collections => collections ? Object.keys(collections).map(key => collections[key]) : []
 );
 
 // memoized as we dont want to rerun for every change of state on the page (adding to cart etc).
 export const selectCollection = memoize((collectionUrlParam) =>
     createSelector(
         [selectCollections],
-        collections => collections[collectionUrlParam]
+        collections => collections ? collections[collectionUrlParam] : null
     )
 );
