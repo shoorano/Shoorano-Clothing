@@ -11,18 +11,24 @@ import SignInAndSignUp from './pages/sign-in-and-sign-up/sign-in-and-sign-up.jsx
 import CheckoutPage from './pages/checkout/checkout.jsx';
 
 import Header from './components/header/header.jsx';
+
 import { auth, createUserProfileDocument } from './firebase/firebase.utils.js';
+
 import { setCurrentUser } from './redux/user/user.actions.js';
 import { selectCurrentUser } from './redux/user/user.selectors.js';
 
-class App extends Component {
 
+class App extends Component {
+  // Check why we need this in FB Docs....
   unsubscribeFromAuth = null;
 
   componentDidMount() {
+
+
     const { setCurrentUser } = this.props;
 
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+      // ...?
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
 
@@ -32,9 +38,9 @@ class App extends Component {
               ...snapShot.data()
             });
           });
-        } else {
-          setCurrentUser(userAuth);
-        }
+        } 
+        
+        setCurrentUser(userAuth);
     });
   }
 

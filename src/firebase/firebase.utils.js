@@ -39,6 +39,37 @@ const config = {
     return userRef;
   }
 
+  // Add new collections to firebase when required.
+  export const addCollectionAndDocuments = async (collectionKey, objectToAdd) => {
+    const collectionRef = firestore.collection(collectionKey);
+
+    // Batch incase internet connection goes down during upload.
+    const batch = firestore.batch();
+    objectToAdd.forEach(obj => {
+      const newDocRef = collectionRef.doc();
+      batch.set(newDocRef, obj);
+    });
+
+    // Trigger the batch call, on Success returns a null value.
+    return await batch.commit();
+  }
+
+  export const convertCollectionsSnapshotToMap = (collections) => {
+    const transformedCollection = collections.docs.map(doc => {
+      const { title, items } = doc.data();
+
+      return {
+        // encode URI converts strings to readable string for url.
+        routeName: encodeURI(title.toLowerCase()),
+        id: doc.id,
+        title,
+        items
+      };
+    })
+
+    console.log(transformedCollection);
+  }
+
   firebase.initializeApp(config);
 
   export const auth = firebase.auth();
